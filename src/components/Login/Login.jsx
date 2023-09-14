@@ -3,16 +3,10 @@ import './Login.css'
 
 const Login = () => {
     return (
-        <div className='formcontainer'>
-            <div className='formWrapper'>
-                <span className='logo'>Equipazo Chat</span>
-                <span className='title'>Login</span>
-                <form>
-                    <input type='email' placeholder='Email'/>
-                    <input type='password' placeholder='Password'/>
-                    <button>Sign In</button>
-                </form>
-                <p>You don't have an account? Register</p>
+        <div className='loginContainer'>
+            <div className='loginBox'>
+                <img src="https://rotulosmatesanz.com/wp-content/uploads/2017/09/2000px-Google_G_Logo.svg_.png" alt="" />
+                <span>Login with Google</span>
             </div>
         </div>
     )
