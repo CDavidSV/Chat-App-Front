@@ -6,10 +6,21 @@ import Pusher from 'pusher-js';
 const Message = () => {
     const [messageData, setMessageData] = useState(null);
     const [messages, setMessages] = useState([]);
+    const [userId, setUserId] = useState(null);
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
-        const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTQ4MDAzMjIsInVpZCI6IjY1MDM0ODQyNmYzMGQ2MjQ5Mjg4NGUxZCJ9.qmK7_4JxOxST675TQp1nks_qKKkS_O6_SVZNidjGMrE';
+        const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTQ4MjI2OTgsInVpZCI6IjY1MDM2Y2QyNmZmYWUxZjVmZmZlYmI1MiJ9.q65sPhPRq15HPLoMChizyKY8drpsVoagwwysh_ZgUB0';
+
+        axios.get('http://localhost:8080/api/user_profile', {
+            headers: { Authorization: `Bearer ${accessToken}` }
+        }).then(response => {
+            if (response.data.status === "success") {
+                setUserId(response.data.user_profile.id);
+            }
+        }).catch(error => {
+            console.error('Error al obtener el perfil de usuario:', error);
+        });
 
         const pusher = new Pusher('ee7ae47591298cf84395', {
             cluster: 'mt1',
@@ -18,7 +29,11 @@ const Message = () => {
         const channel = pusher.subscribe('super-chat-channel');
 
         channel.bind('main', (data) => {
-            setMessages((prevMessages) => [...prevMessages, data]);
+            console.log('Mensaje recibido:', data);
+            setMessages((prevMessages) => [...prevMessages, {
+                ...data,
+                me: data.sender_id === userId,
+            }]);
         });
 
         const loadMessages = () => {
@@ -30,8 +45,12 @@ const Message = () => {
 
             axios.get('http://localhost:8080/api/get_messages', axiosConfig)
                 .then((response) => {
+                    console.log(response.data);
                     setMessageData(response.data);
-                    setMessages(response.data.messages);
+                    setMessages(response.data.messages.map(message => ({
+                        ...message,
+                        me: message.sender_id === userId
+                    })));
                 })
                 .catch((error) => {
                     console.error('Error al obtener los datos del mensaje:', error);
@@ -44,7 +63,7 @@ const Message = () => {
             channel.unbind_all();
             channel.unsubscribe();
         };
-    }, []);
+    }, [userId]);
 
     useEffect(() => {
         scrollToNewMessage();
