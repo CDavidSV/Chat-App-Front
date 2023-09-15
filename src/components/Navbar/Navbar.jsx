@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Navbar.css';
+import { accessToken } from '../../config';
 
 const Navbar = () => {
     const [profileData, setProfileData] = useState({ profile_picture: '', username: 'Cargando...' });
-    
-    useEffect(() => {
-        const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTQ4MzgzNDQsInVpZCI6IjY1MDNkYzRmYjM3NWE3ZGY2YTcwZGEzZCJ9.WjWCAR9-qUbqtxnAO6APy06HZCgUQHjvXZRuY3uCYqY';
 
+    useEffect(() => {
         const fetchProfileData = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/user_profile', {

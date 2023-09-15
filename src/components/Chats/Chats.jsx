@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Chats.css';
+import { accessToken } from '../../config';
 
 const Chats = () => {
     const [onlineUsers, setOnlineUsers] = useState([]);
     
     useEffect(() => {
-        const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTQ4MzgzNDQsInVpZCI6IjY1MDNkYzRmYjM3NWE3ZGY2YTcwZGEzZCJ9.WjWCAR9-qUbqtxnAO6APy06HZCgUQHjvXZRuY3uCYqY';
-
         const fetchOnlineUsers = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/get_online_users', {

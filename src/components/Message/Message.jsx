@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import './Message.css';
 import Pusher from 'pusher-js';
+import { accessToken } from '../../config';
 
 const Message = () => {
     const [messageData, setMessageData] = useState(null);
@@ -10,10 +11,9 @@ const Message = () => {
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
-        const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTQ4MzgzNDQsInVpZCI6IjY1MDNkYzRmYjM3NWE3ZGY2YTcwZGEzZCJ9.WjWCAR9-qUbqtxnAO6APy06HZCgUQHjvXZRuY3uCYqY';
 
         axios.get('http://localhost:8080/api/user_profile', {
-            headers: { Authorization: `Bearer ${accessToken}` }
+            headers: { Authorization: `Bearer ${accessToken}` },
         }).then(response => {
             if (response.data.status === "success") {
                 setUserId(response.data.user_profile.id);

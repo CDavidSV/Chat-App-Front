@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Search.css';
+import { accessToken } from '../../config';
 
 const Search = () => {
     const [profileData, setProfileData] = useState({ 
@@ -10,7 +11,6 @@ const Search = () => {
     });
 
     useEffect(() => {
-        const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTQ4MzgzNDQsInVpZCI6IjY1MDNkYzRmYjM3NWE3ZGY2YTcwZGEzZCJ9.WjWCAR9-qUbqtxnAO6APy06HZCgUQHjvXZRuY3uCYqY';  // Reemplazar con tu access token
 
         const fetchProfileData = async () => {
             try {

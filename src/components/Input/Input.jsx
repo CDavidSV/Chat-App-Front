@@ -1,12 +1,11 @@
 import React, { useState, useRef } from 'react';
 import './Input.css';
 import axios from 'axios';
+import { accessToken } from '../../config';
 
 const Input = () => {
     const [message, setMessage] = useState('');
     const inputRef = useRef(null);
-
-    const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTQ4MzgzNDQsInVpZCI6IjY1MDNkYzRmYjM3NWE3ZGY2YTcwZGEzZCJ9.WjWCAR9-qUbqtxnAO6APy06HZCgUQHjvXZRuY3uCYqY';
 
     const sendMessage = () => {
         if (message.trim() !== '') {
