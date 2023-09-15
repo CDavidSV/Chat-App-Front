@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react'; // Importa useContext
 import axios from 'axios';
 import './Navbar.css';
-import { accessToken } from '../../config';
+import { AccessTokenContext } from '../../AccessTokenContext'; // Importa AccessTokenContext
 
 const Navbar = () => {
+    const { accessToken } = useContext(AccessTokenContext); // Usa useContext para obtener accessToken
     const [profileData, setProfileData] = useState({ profile_picture: '', username: 'Cargando...' });
 
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
+                console.log("Access Token a utilizar:", accessToken); // Imprime en consola el access token
+
                 const response = await axios.get('http://localhost:8080/api/user_profile', {
-                    headers: { Authorization: `Bearer ${accessToken}` },
+                    headers: { Authorization: `Bearer ${accessToken}` }, // Usa accessToken desde el contexto
                 });
 
                 if (response.data.status === "success") {
@@ -25,8 +28,8 @@ const Navbar = () => {
         };
 
         fetchProfileData();
-    }, []);
-    
+    }, [accessToken]); // Agrega accessToken como dependencia
+
     return (
         <div className='navbar'>
             <span className='logo'>Chat TEC</span>

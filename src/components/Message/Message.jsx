@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react'; // Importa useContext
 import axios from 'axios';
 import './Message.css';
 import Pusher from 'pusher-js';
-import { accessToken } from '../../config';
+import { AccessTokenContext } from '../../AccessTokenContext'; // Importa AccessTokenContext
 
 const Message = () => {
+    const { accessToken } = useContext(AccessTokenContext); // Usa useContext para obtener accessToken
     const [messageData, setMessageData] = useState(null);
     const [messages, setMessages] = useState([]);
     const [userId, setUserId] = useState(null);
@@ -13,7 +14,7 @@ const Message = () => {
     useEffect(() => {
 
         axios.get('http://localhost:8080/api/user_profile', {
-            headers: { Authorization: `Bearer ${accessToken}` },
+            headers: { Authorization: `Bearer ${accessToken}` }, // Usa accessToken desde el contexto
         }).then(response => {
             if (response.data.status === "success") {
                 setUserId(response.data.user_profile.id);
@@ -39,7 +40,7 @@ const Message = () => {
         const loadMessages = () => {
             const axiosConfig = {
                 headers: {
-                    Authorization: `Bearer ${accessToken}`,
+                    Authorization: `Bearer ${accessToken}`, // Usa accessToken desde el contexto
                 },
             };
 
@@ -63,7 +64,7 @@ const Message = () => {
             channel.unbind_all();
             channel.unsubscribe();
         };
-    }, [userId]);
+    }, [userId, accessToken]); // Agrega accessToken como dependencia
 
     useEffect(() => {
         scrollToNewMessage();

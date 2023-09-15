@@ -1,12 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './Chat.css';
 import more from '../../assets/more.png';
 import Messages from '../Messages/Messages';
 import Input from '../Input/Input';
-import { accessToken } from '../../config';
+import { AccessTokenContext } from '../../AccessTokenContext';
 
 const Chat = () => {
+    const { accessToken } = useContext(AccessTokenContext);
+
     const [menuVisible, setMenuVisible] = useState(false);
     const [inputVisible, setInputVisible] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
@@ -55,7 +57,7 @@ const Chat = () => {
         } catch (error) {
             console.error('Error al cambiar datos:', error);
         }
-    };    
+    };
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {

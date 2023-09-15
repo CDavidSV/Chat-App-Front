@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './Chats.css';
-import { accessToken } from '../../config';
+import { AccessTokenContext } from '../../AccessTokenContext'; // Asegúrate de que la ruta de importación es correcta
 
 const Chats = () => {
+    const { accessToken } = useContext(AccessTokenContext);
     const [onlineUsers, setOnlineUsers] = useState([]);
     
     useEffect(() => {
@@ -22,7 +23,7 @@ const Chats = () => {
         };
 
         fetchOnlineUsers();
-    }, []);
+    }, [accessToken]);
     
     return (
         <div className='chats'>

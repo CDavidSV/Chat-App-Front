@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react'; // Importa useContext
 import './Input.css';
 import axios from 'axios';
-import { accessToken } from '../../config';
+import { AccessTokenContext } from '../../AccessTokenContext'; // Importa AccessTokenContext
 
 const Input = () => {
+    const { accessToken } = useContext(AccessTokenContext); // Usa useContext para obtener accessToken
     const [message, setMessage] = useState('');
     const inputRef = useRef(null);
 
@@ -13,7 +14,7 @@ const Input = () => {
 
             const axiosConfig = {
                 headers: {
-                    Authorization: `Bearer ${accessToken}`,
+                    Authorization: `Bearer ${accessToken}`, // Usa accessToken desde el contexto
                 },
             };
 

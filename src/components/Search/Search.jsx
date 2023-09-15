@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react'; // Importa useContext
 import axios from 'axios';
 import './Search.css';
-import { accessToken } from '../../config';
+import { AccessTokenContext } from '../../AccessTokenContext'; // Importa AccessTokenContext
 
 const Search = () => {
+    const { accessToken } = useContext(AccessTokenContext); // Usa useContext para obtener accessToken
     const [profileData, setProfileData] = useState({ 
         profile_picture: "https://images.pexels.com/photos/4946515/pexels-photo-4946515.jpeg?cs=srgb&dl=pexels-maria-orlova-4946515.jpg&fm=jpg", 
         username: 'Cargando...', 
@@ -11,11 +12,10 @@ const Search = () => {
     });
 
     useEffect(() => {
-
         const fetchProfileData = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/user_profile', {
-                    headers: { Authorization: `Bearer ${accessToken}` },
+                    headers: { Authorization: `Bearer ${accessToken}` }, // Usa accessToken desde el contexto
                 });
 
                 if (response.data.status === "success") {
@@ -31,8 +31,8 @@ const Search = () => {
         };
 
         fetchProfileData();
-    }, []);
-    
+    }, [accessToken]); // Agrega accessToken como dependencia
+
     return (
         <div className='search'>
             <div className='searchForm'>
